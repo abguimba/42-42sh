@@ -1,5 +1,5 @@
 # 42-42sh
-The last and hardest of the shell projects. We were asked, in a group of at least 5 people. To build a shell that incorporated a lot of modern shell functions, such as job control, globbing, inhibitors, scripting, perfect line management, etc...
+The last and hardest of the shell projects. We were asked, in a team of at least 4 people. To build a shell that incorporated a lot of modern shell functions, such as job control, globbing, inhibitors, scripting, perfect line management, etc...
 
 <img src="/images/42sh01.png" alt="42sh01" width="700"/>
 
