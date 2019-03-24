@@ -4,6 +4,7 @@ The last and hardest of the shell projects. We were asked, in a team of at least
 <img src="/images/42sh01.gif" alt="42sh01" width="700"/>
 <img src="/images/42sh02.gif" alt="42sh02" width="700"/>
 <img src="/images/42sh03.gif" alt="42sh03" width="700"/>
+<img src="/images/42sh04.gif" alt="42sh04" width="700"/>
 
 
 
