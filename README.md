@@ -1,5 +1,5 @@
 # 42-42sh
-The last and hardest of the shell projects. We were asked, in a team of at least 4 people. To build a shell that incorporated a lot of modern shell functions, such as job control, globbing, inhibitors, scripting, perfect line management, signal handling, heredoc management, perfect piping and fd redirections, alias, complete environment management, history, autocompletion, syntax highlighting, POSIX builtins, abstract syntax trees, parser, lexer, binary hashing, etc...
+The last and hardest of the shell projects. We were asked, in a team of at least 4 people. To build a shell that incorporated a lot of modern shell functions, such as job control, globbing, inhibitors, scripting, perfect line management, signal handling, heredoc management, perfect piping and fd redirections, alias, complete environment management, history, autocompletion, syntax highlighting, POSIX builtins, abstract syntax trees, parser, lexer, binary hashing, unit-testing, and even games!
 
 Partners in this project -> [@toshuomj](https://github.com/toshuomj) [@alsomvil](https://github.com/alsomvil42) [@albrenmar](https://github.com/albrenmar)
 
