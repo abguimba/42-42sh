@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstgetlast.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 04:54:46 by bsiche            #+#    #+#             */
-/*   Updated: 2018/02/17 04:54:48 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/20 01:06:09 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 t_list	*ft_lstgetlast(t_list *lst)
 {
+	if (!lst)
+		return (NULL);
 	while (lst->next)
 		lst = lst->next;
 	return (lst);

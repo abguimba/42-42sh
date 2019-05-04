@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 04:57:22 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/08 23:33:10 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/02 06:55:26 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ char	*ft_strsub(const char *s, size_t start, size_t len, size_t freeit)
 	ft_strncpy(new, s, len);
 	new[len] = '\0';
 	if (freeit == 1)
-		free((char*)tmp);
+		ft_free((char*)tmp);
 	return (new);
 }

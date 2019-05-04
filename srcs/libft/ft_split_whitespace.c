@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 05:38:49 by bsiche            #+#    #+#             */
-/*   Updated: 2018/12/05 15:23:41 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/11 23:33:52 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ char	**ft_split_white(char *str)
 	i = 0;
 	free_tab(tab);
 	tab = ft_strsplit(newstr, ' ');
-	free(newstr);
+	ft_free(newstr);
 	return (tab);
 }

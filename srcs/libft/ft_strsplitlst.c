@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 23:37:38 by bsiche            #+#    #+#             */
-/*   Updated: 2018/12/18 23:55:37 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/29 03:20:32 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,18 @@ void			free_tab(char **tab)
 	{
 		while (tab[i])
 		{
-			free(tab[i]);
+			ft_strdel(&tab[i]);
 			i++;
 		}
 	}
-	free(tab);
+	ft_free(tab);
+	tab = NULL;
+}
+
+void			free_two_tabs(char **tab1, char **tab2)
+{
+	free_tab(tab1);
+	free_tab(tab2);
 }
 
 void			ft_freelstsplit(t_lstcontainer *list)
@@ -35,7 +42,7 @@ void			ft_freelstsplit(t_lstcontainer *list)
 	tmp = list->firstelement;
 	while (tmp)
 	{
-		free(tmp->content);
+		ft_free(tmp->content);
 		tmp = tmp->next;
 	}
 }
@@ -47,7 +54,7 @@ void			ft_freesplitlist(t_lstcontainer *list)
 		ft_freelstsplit(list);
 		if (list->firstelement != NULL)
 			ft_lstdel(list->firstelement, 0);
-		free(list);
+		ft_free(list);
 	}
 }
 

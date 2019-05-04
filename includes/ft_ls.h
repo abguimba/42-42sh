@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 16:30:16 by bsiche            #+#    #+#             */
-/*   Updated: 2019/01/08 05:05:31 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/04 07:28:23 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <grp.h>
 # include <pwd.h>
 # include <time.h>
-# include <errno.h>
 # include <sys/types.h>
 # include <stdio.h>
 # include <sys/types.h>
@@ -57,7 +56,7 @@ typedef	struct	s_ls
 
 int				ft_option(char **argv, char **str, int *flag);
 int				checkoption(char *option, char c);
-t_lstcontainer	*ft_ls(char *dossier, char *option, int called);
+t_lstcontainer	*ft_ls(char *dossier, char *option);
 t_lstcontainer	*makelist(t_lstcontainer *mainliste,
 				DIR *dir, char *str, char *option);
 t_lstcontainer	*ft_dirliste(t_lstcontainer *dirlist, t_list *mainliste);
@@ -68,7 +67,6 @@ void			makepath(char **path, char *str, char *name);
 int				ft_recursive(t_list *liste, char *option);
 char			*ft_usrmode(mode_t mode);
 int				ft_stat(char *path, t_ls *info, char *option);
-char			*ft_getusr(uid_t pw);
 char			*ft_getgroup(gid_t gr);
 int				ft_print(t_list *liste, char *option, int flag);
 int				ft_printl(t_list *liste, int g);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   next_word.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 00:52:42 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 06:11:03 by abguimba         ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/sh42.h"
+#include "sh42.h"
 
 int		is_space(char c)
 {
@@ -36,13 +36,13 @@ void	next_word(void)
 	tmp = g_tracking.str;
 	if (tmp != NULL)
 	{
-		while (tmp[i] && tmp[i] < g_tracking.buffsize)
+		while (tmp[i])
 		{
-			if (is_space(tmp[i]) == 0)
+			if (is_space(tmp[i]) == 0 && i < g_tracking.buffsize)
 				i++;
 			else
 			{
-				while (is_space(tmp[i]) == 1)
+				while (is_space(tmp[i]) == 1 && tmp[i])
 					i++;
 				break ;
 			}

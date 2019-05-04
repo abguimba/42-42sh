@@ -6,15 +6,35 @@
 /*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 16:29:52 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 04:03:43 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/03 04:02:09 by abguimba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/sh42.h"
+#include "sh42.h"
 
-int		yan_putchar(int c)
+void	init_builtin_list(void)
 {
-	return (write(STDERR_FILENO, &c, 1));
+	g_tracking.builtin_list = lstcontainer_new();
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("jobs"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("fg"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("exit"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("bg"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("echo"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("set"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("test"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("hash"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("cd"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("unalias"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("alias"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("unset"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("export"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("history"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("fc"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("kirby"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("type"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("true"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("false"));
+	lstcontainer_add(g_tracking.builtin_list, ft_strdup("."));
 }
 
 void	init_cpaste(void)
@@ -46,6 +66,8 @@ void	init_key_list(void)
 
 void	cursor_reset(void)
 {
+	if (g_tracking.cpaste)
+		ft_free(g_tracking.cpaste);
 	g_tracking.pos->abs = 0;
 	g_tracking.pos->x = 1;
 	g_tracking.pos->y = 0;
@@ -53,28 +75,23 @@ void	cursor_reset(void)
 	g_tracking.pos->rely = 0;
 	g_tracking.pos->legacy = 0;
 	g_tracking.swi = 0;
-	g_tracking.cpaste = malloc(sizeof(t_cpaste));
+	g_tracking.cpaste = ft_malloc(sizeof(t_cpaste));
 	g_tracking.cpaste->line = NULL;
 	g_tracking.buffsize = 2;
 	g_tracking.search = NULL;
 	g_tracking.found = NULL;
 	g_tracking.quotes = 0;
 	g_tracking.herenbr = 0;
-	if ((g_tracking.str = malloc(sizeof(char) * g_tracking.buffsize)) == NULL)
-	{
-		ft_putendl("Failled to allocate memory");
-		exit(EXIT_FAILURE);
-	}
-	ft_bzero(g_tracking.str, g_tracking.buffsize);
 }
 
 void	cursorinit(void)
 {
-	if ((g_tracking.pos = malloc(sizeof(t_cursor) + 1)) == NULL)
+	if ((g_tracking.pos = ft_malloc(sizeof(t_cursor) + 1)) == NULL)
 	{
 		ft_putendl("Failled to allocate memory");
-		exit(EXIT_FAILURE);
+		ft_exit2(EXIT_FAILURE);
 	}
 	cursor_reset();
 	init_key_list();
+	init_builtin_list();
 }

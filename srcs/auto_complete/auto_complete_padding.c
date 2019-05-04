@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   auto_complete_padding.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 20:45:18 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 06:11:03 by abguimba         ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	ft_strpadding(void)
 	t_ls		*arg;
 
 	tmp = g_tracking.aut->comp_list->firstelement;
+	tmp = ft_lstgetfirst(tmp);
+	blank = NULL;
 	while (tmp)
 	{
 		arg = tmp->content;
@@ -79,19 +81,10 @@ void	get_max_size(void)
 		buf = buf->next;
 	}
 	g_tracking.aut->size = size;
-	g_tracking.aut->col_nbr =
-	g_tracking.terminfo->sizex / (g_tracking.aut->size + 6);
+	g_tracking.aut->col_nbr = g_tracking.terminfo->sizex
+	/ (g_tracking.aut->size + 6);
 	g_tracking.aut->lin_nbr = g_tracking.terminfo->sizey - 2;
 	if (g_tracking.aut->lin_nbr > 4)
 		g_tracking.aut->lin_nbr = 4;
 	ft_strpadding();
-}
-
-void	get_line_col(void)
-{
-	int				max;
-
-	max = g_tracking.aut->size;
-	g_tracking.aut->col_nbr = g_tracking.terminfo->sizex / (max);
-	g_tracking.aut->lin_nbr = g_tracking.terminfo->sizey - 2;
 }

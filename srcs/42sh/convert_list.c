@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/31 07:07:00 by alsomvil          #+#    #+#             */
-/*   Updated: 2019/03/18 18:15:36 by bsiche           ###   ########.fr       */
+/*   Created: 2019/01/31 07:07:00 by mjose             #+#    #+#             */
+/*   Updated: 2019/04/30 00:02:45 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
-#include "../../includes/minishell.h"
-#include "../../includes/sh42.h"
+#include "sh42.h"
 
 #define PREV list->prev
 #define LIST list->type
@@ -25,6 +23,7 @@ t_last		*new_list(void)
 	new->name = NULL;
 	new->next = NULL;
 	new->prev = NULL;
+	new->type = 0;
 	return (new);
 }
 
@@ -52,8 +51,9 @@ void		tokenize_opt(t_last *list)
 	t_last	*prev;
 
 	prev = NULL;
-	if (PREV && PREV->type == CMD && list->name[0] == '-')
-		LIST = OPT;
+	if (PREV && (PREV->type == CMD || PREV->type == OPT)
+			&& list->name[0] == '-')
+		LIST = list->name[1] ? OPT : ARG;
 	else if ((PREV && (PREV->type == CMD || PREV->type == FICH
 					|| PREV->type == OPT)))
 	{
@@ -74,6 +74,8 @@ void		tokenize_opt(t_last *list)
 
 void		tokenize_list(t_last *list)
 {
+	if (!list)
+		return ;
 	if (list->name[0] == '-')
 		tokenize_opt(list);
 	else if (PREV && (PREV->type == FICH || PREV->type == OPT
@@ -95,21 +97,20 @@ void		convert_list(t_last *list)
 	prev = NULL;
 	while (list)
 	{
-		if (!its_indir(list) && !its_heredoc(list) && !its_reddir(list)
-				&& !its_fd_reddir(list) && (!PREV || (PREV && (its_pipe(PREV)
-							|| PREV->type == SEP))))
+		if (!its_indir(list->name) && !its_heredoc(list->name)
+				&& !its_reddir(list) && !its_fd_reddir(list)
+				&& (!PREV || (PREV && (its_pipe(PREV) || PREV->type == SEP))))
 			LIST = CMD;
 		else if (its_separator(list) || its_eper(list))
 			LIST = SEP;
 		else if (its_pipe(list) || its_reddir(list) || its_fd_reddir(list)
-				|| its_heredoc(list) || its_indir(list))
+				|| its_heredoc(list->name) || its_indir(list->name))
 			LIST = OP;
 		else if (PREV && (its_reddir(PREV) || its_fd_reddir(PREV)
-					|| its_indir(PREV) || its_heredoc(PREV)))
+					|| its_indir(PREV->name) || its_heredoc(PREV->name)))
 			LIST = FICH;
 		else
 			tokenize_list(list);
 		list = list->next;
 	}
-	apply_alias(begin);
 }

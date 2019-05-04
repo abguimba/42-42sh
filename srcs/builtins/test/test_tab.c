@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 03:49:52 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/17 03:51:14 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/03 04:24:01 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**copy_tab_minus_one(int argc, char **argv)
 
 	i = 1;
 	a = 0;
-	av = malloc(sizeof(char *) * (argc + 1));
+	av = ft_malloc(sizeof(char *) * (argc + 1));
 	while (argv[i])
 	{
 		av[a] = ft_strdup(argv[i]);
@@ -38,7 +38,10 @@ int		count_arg(char **taab)
 	i = 0;
 	if (!taab)
 		return (1);
-	while (taab[i])
+	while (taab && taab[0])
+	{
+		taab++;
 		i++;
+	}
 	return (i);
 }

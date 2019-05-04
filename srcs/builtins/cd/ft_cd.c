@@ -3,141 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/28 15:17:02 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 06:11:03 by abguimba         ###   ########.fr       */
+/*   Created: 2019/04/08 09:21:48 by bsiche            #+#    #+#             */
+/*   Updated: 2019/05/03 08:43:16 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh42.h"
 
-int		ft_parsecd(char **av, char *option)
+char	cd_option(char **av)
 {
-	int i;
-
-	i = 1;
-	while (av[i])
-	{
-		if (ft_strcmp(av[i], "-") == 0)
-			return (i);
-		if (av[i][0] == '-')
-		{
-			if (av[i][1] == 'P' || av[i][1] == 'L')
-				*option = av[i][1];
-			if (av[i][1] == '-')
-			{
-				i++;
-				return (i);
-			}
-			if (av[i][1] != 'P' && av[i][1] != 'L'
-			&& av[i][1] != '-')
-				return (i);
-		}
-		if (av[i][0] != '-')
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
-void	ft_changedir(char option, char *path)
-{
-	char	*truepwd;
-	char	*oldpwd;
-	char	*newpwd;
-
-	if (getright(path) == 0)
-	{
-		truepwd = ft_true_pwd();
-		replace_env_str("TRUEOLDPWD", truepwd);
-		oldpwd = ft_strdup(get_env_string("PWD"));
-		chdir(path);
-		if (option != 'P')
-			replace_env_str("PWD", path);
-		else
-		{
-			free(truepwd);
-			truepwd = ft_true_pwd();
-			replace_env_str("PWD", truepwd);
-		}
-		replace_env_str("OLDPWD", oldpwd);
-		free(truepwd);
-		truepwd = NULL;
-		free(oldpwd);
-	}
-}
-
-char	*buildpath(char option, char *path)
-{
-	char	*pwd;
-	int		i;
-
-	pwd = NULL;
-	if (option == 'P')
-		pwd = ft_true_pwd();
+	if (!av[1])
+		return ('n');
+	if (ft_strcmp(av[1], "-P") == 0)
+		return ('P');
+	if (ft_strcmp(av[1], "-L") == 0)
+		return ('L');
+	if (ft_strcmp(av[1], "-") == 0)
+		return ('-');
+	if (ft_strcmp(av[1], "~") == 0)
+		return ('~');
 	else
-		pwd = ft_strdup(get_env_string("PWD"));
-	if (pwd == NULL)
-		pwd = ft_true_pwd();
-	i = ft_strlen(pwd);
-	if (pwd[i] != '/')
-		pwd = ft_strjoinfree(pwd, "/", 1);
-	if (path[0] != '/')
-		path = ft_strjoinfree(pwd, path, 2);
-	path = ft_dot(path);
-	free(pwd);
+		return ('n');
+}
+
+char	*home_dir(void)
+{
+	char	*path;
+
+	path = ft_strdup(get_env_string("HOME"));
+	if (!path)
+	{
+		ft_putendl_fd("No HOME set in env", 2);
+		return (NULL);
+	}
 	return (path);
 }
 
-int		ft_cd2(char option, int i, char *path)
+char	*prev_dir(void)
 {
-	if (ft_strlen(path) == 0)
-		ft_putendl("cd: HOME not set");
-	if (ft_strlen(path) == 0)
-		return (0);
-	if (ft_strcmp(path, "/") == 0)
+	char	*path;
+
+	path = ft_strdup(get_env_string("OLDPWD"));
+	if (!path)
 	{
-		ft_changedir(option, path);
-		return (0);
+		ft_putendl_fd("No Old PWD in env", 2);
+		return (NULL);
 	}
-	path = ft_homepath(path);
-	if (path[0] != '.' && path[0] != '/')
-		path = ft_cdpath(path);
-	if (option != 'P')
-		path = buildpath(option, path);
-	ft_changedir(option, path);
-	if (i == 875)
-		ft_putendl(path);
-	free(path);
-	return (0);
+	return (path);
 }
 
-int		ft_cd(void)
+char	*get_path(char option, char **av)
 {
-	char			*path;
-	char			**av;
-	char			option;
-	int				i;
-
-	option = 'P';
-	av = g_tracking.g_tab_exec;
-	i = ft_parsecd(av, &option);
-	path = NULL;
-	if (!av[i] || ft_strcmp(av[i], "~") == 0)
-		path = ft_strdup(get_env_string("HOME"));
+	if (option == '~' || !av[1])
+		return (home_dir());
+	if (option == '-')
+		return (prev_dir());
+	if (option == 'n')
+		return (ft_strdup(av[1]));
+	if (option != 'n' && !av[2])
+		return (home_dir());
 	else
-		path = ft_strdup((av[i]));
-	if (ft_strcmp(av[i], "-") == 0)
-	{
-		i = 875;
-		free(path);
-		path = ft_strdup(get_env_string("OLDPWD"));
-		if (ft_strlen(path) == 0)
-		{
-			ft_putendl("OLDPWD not set");
-			return (0);
-		}
-	}
-	return (ft_cd2(option, i, path));
+		return (ft_strdup(av[2]));
+}
+
+int		ft_cd(int i)
+{
+	char		**av;
+	char		option;
+	char		*path;
+	char		*err;
+
+	av = g_tracking.g_tab_exec;
+	option = cd_option(av);
+	path = NULL;
+	path = get_path(option, av);
+	if (!path)
+		return (0);
+	err = ft_strdup(path);
+	if (path[0] != '.' && path[0] != '/')
+		path = cd_path(path);
+	path = sanitize_path_cd(path, option);
+	i = ft_changedir(path, option, err, 0);
+	ft_free(err);
+	ft_free(path);
+	return (i);
 }

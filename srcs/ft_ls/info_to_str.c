@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   info_to_str.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 21:58:17 by bsiche            #+#    #+#             */
-/*   Updated: 2019/01/12 02:00:49 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ int		ft_strinfo(t_list *liste)
 	{
 		tmp = buf->content;
 		tmp->strpermission = ft_usrmode(tmp->permission);
-		tmp->strlink = ft_itoa(tmp->hardlink);
-		tmp->strusrname = ft_getusr(tmp->usrname);
-		tmp->strgroup = ft_getgroup(tmp->group);
-		tmp->strsize = ft_itoa(tmp->size);
-		tmp->strtime = ft_strdup(ctime(&tmp->time));
-		tmp->strmin = ft_itoa(tmp->min);
-		tmp->strmaj = ft_itoa(tmp->maj);
-		tmp->strpermission[10] = tmp->acl;
+		tmp->strlink = NULL;
+		tmp->strusrname = NULL;
+		tmp->strgroup = NULL;
+		tmp->strsize = NULL;
+		tmp->strtime = NULL;
+		tmp->strmin = NULL;
+		tmp->strmaj = NULL;
+		tmp->strpermission[10] = '\0';
 		buf = buf->next;
 	}
 	liste = ft_lstgetfirst(liste);

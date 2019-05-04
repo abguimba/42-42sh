@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:00:48 by bsiche            #+#    #+#             */
-/*   Updated: 2017/12/02 18:45:00 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/03 09:10:10 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_isalpha(int c)
 {
 	if ((c > 64 && c < 91) || (c > 96 && c < 123))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isspecial(int c)
+{
+	if ((c > 63 && c < 91) || (c > 96 && c < 123))
+		return (1);
+	if ((c >= 40 && c <= 47))
 		return (1);
 	else
 		return (0);

@@ -6,18 +6,11 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/30 15:24:45 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/11 13:35:32 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/04 02:54:18 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/sh42.h"
-
-int			utf_byte(char c)
-{
-	if ((c & 0xC0) != 0x80)
-		return (0);
-	return (1);
-}
+#include "sh42.h"
 
 int			get_nb_char(unsigned char c)
 {
@@ -56,6 +49,8 @@ int			utf_goto(char *str, int j)
 
 	i = 0;
 	a = 0;
+	if (!str)
+		return (0);
 	while (a != j && str[i])
 	{
 		i += get_nb_char(str[i]);

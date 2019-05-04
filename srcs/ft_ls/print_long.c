@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:24:14 by bsiche            #+#    #+#             */
-/*   Updated: 2018/05/23 19:47:27 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/02 06:55:43 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**gettab(t_ls *tmp)
 {
 	char **tab;
 
-	tab = malloc(sizeof(char *) * 9);
+	tab = ft_malloc(sizeof(char *) * 9);
 	tab[0] = tmp->strpermission;
 	tab[1] = tmp->strlink;
 	tab[2] = tmp->strusrname;
@@ -89,7 +89,7 @@ int		ft_printl(t_list *liste, int g)
 		tab = gettab(tmp);
 		ft_printtab(tmp, tab, g);
 		ft_putchar('\n');
-		free(tab);
+		ft_free(tab);
 		buf = buf->next;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cababou <cababou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/11 17:10:41 by cababou           #+#    #+#             */
-/*   Updated: 2018/06/03 11:53:01 by cababou          ###   ########.fr       */
+/*   Created: 2018/01/11 17:10:41 by bsiche            #+#    #+#             */
+/*   Updated: 2019/04/16 03:05:35 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	ft_lstdel(t_list *lst, int free_content)
 	while (element)
 	{
 		if (element->content && free_content)
-			free(element->content);
+			ft_free(element->content);
 		next = element->next;
-		free(element);
+		ft_free(element);
 		element = next;
 	}
 }

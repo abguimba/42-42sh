@@ -6,7 +6,7 @@
 /*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 02:50:02 by mjose             #+#    #+#             */
-/*   Updated: 2019/03/20 04:47:46 by mjose            ###   ########.fr       */
+/*   Updated: 2019/05/02 05:15:10 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,17 @@ char	*recup_expath(char **tab_path, int start)
 		tab_path[i] = ft_strdup(path);
 		ft_strdel(&path);
 	}
-	path = ft_strnew(1);
+	if (!tab_path[i])
+		path = ft_strdup("/");
+	else
+		path = ft_strnew(1);
 	while (tab_path[i])
 	{
 		tab_path[i] = ft_strjoinfree("/", tab_path[i], 2);
-		path = ft_strdup(ft_strjoinfree(path, tab_path[i++], 3));
+		path = ft_strjoinfree(path, tab_path[i++], 1);
 	}
+	ft_strdel(&tab_path[0]);
+	ft_free(tab_path);
 	return (path);
 }
 
@@ -52,7 +57,8 @@ void	expand_tilde_pwd(char **str, t_expand **expand)
 	{
 		tmp = ft_strsplit(*str, '/');
 		ft_strdel(&tmp[0]);
-		tmp[0] = path;
+		tmp[0] = ft_strdup(path);
+		ft_strdel(&path);
 		path = recup_expath(tmp, 0);
 	}
 	if (path && path[0])
@@ -60,10 +66,9 @@ void	expand_tilde_pwd(char **str, t_expand **expand)
 		ft_strdel(str);
 		*str = path;
 	}
-	update_list_expand(expand, str);
 }
 
-void	expand_tilde_user(char **str, t_expand **expand)
+void	expand_tilde_user(char **str)
 {
 	char	*user;
 	char	*tmp_path;
@@ -81,15 +86,18 @@ void	expand_tilde_user(char **str, t_expand **expand)
 		tmp_path = recup_expath(tmp, 1);
 	}
 	home = get_user_home(user);
-	ft_strdel(str);
-	if (!tmp_path)
-		*str = home;
-	else
-		*str = ft_strjoinfree(home, tmp_path, 3);
-	update_list_expand(expand, str);
+	if (home)
+	{
+		ft_strdel(str);
+		if (!tmp_path)
+			*str = home;
+		else
+			*str = ft_strjoinfree(home, tmp_path, 3);
+	}
+	ft_strdel(&user);
 }
 
-void	expand_tilde_path(char **str, t_expand **expand)
+void	expand_tilde_path(char **str)
 {
 	char	*home;
 	char	*str_tmp;
@@ -98,7 +106,6 @@ void	expand_tilde_path(char **str, t_expand **expand)
 	str_tmp = ft_strjoinfree(home, *str + 1, 1);
 	ft_strdel(str);
 	*str = str_tmp;
-	update_list_expand(expand, str);
 }
 
 void	expand_tilde_only(char **str)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   search_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/27 18:06:56 by alsomvil          #+#    #+#             */
-/*   Updated: 2019/03/18 19:04:45 by alsomvil         ###   ########.fr       */
+/*   Created: 2019/02/27 18:06:56 by mjose             #+#    #+#             */
+/*   Updated: 2019/05/03 00:33:10 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/sh42.h"
+#include "sh42.h"
 
-char	*search_symboll(char *str, int *nb)
+char	*search_symboll(char *str)
 {
 	int		i;
 	char	*ret;
@@ -32,7 +32,7 @@ char	*search_symboll(char *str, int *nb)
 	return (NULL);
 }
 
-char	*search_fd_reddir(char *str, int *nb)
+char	*search_fd_reddir(char *str)
 {
 	int		i;
 	char	*ret;
@@ -42,7 +42,7 @@ char	*search_fd_reddir(char *str, int *nb)
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
 		i++;
-		if (str[i] && (str[i] == '>' || str[i] == '<'))
+		if (i == 1 && str[i] && (str[i] == '>' || str[i] == '<'))
 		{
 			i++;
 			if (str[i] && str[i] == str[i - 1])
@@ -56,7 +56,7 @@ char	*search_fd_reddir(char *str, int *nb)
 	return (NULL);
 }
 
-char	*search_reddir(char *str, int *nb)
+char	*search_reddir(char *str)
 {
 	int		i;
 	char	*ret;
@@ -96,9 +96,8 @@ char	*search_quote(char *str, int i, int *nb)
 	return (NULL);
 }
 
-char	*search_normally_arg(char *str, int *nb)
+char	*search_normally_arg(char *str, int *nb, int i)
 {
-	int		i;
 	char	*temp;
 
 	i = 0;
@@ -122,5 +121,6 @@ char	*search_normally_arg(char *str, int *nb)
 	temp = ft_strndup(str, i);
 	if (ft_strlen(temp) > 0)
 		return (temp);
+	ft_strdel(&temp);
 	return (NULL);
 }

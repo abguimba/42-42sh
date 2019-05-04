@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history_loop.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 20:41:21 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 03:22:46 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/04 07:35:57 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,27 @@
 
 int		get_last(void)
 {
-	t_hist	*history;
+	t_list			*history;
+	t_lstcontainer	*list;
 
-	history = g_tracking.mysh->hist;
+	list = g_tracking.mysh->hist;
+	if (!list)
+		return (0);
+	history = ft_lstgetlast(list->firstelement);
 	if (!history)
 		return (0);
-	while (history->next)
-		history = history->next;
 	return (history->index);
 }
 
-t_hist	*get_hist_nbr(int i)
+t_list	*get_hist_nbr(size_t i)
 {
-	t_hist	*history;
+	t_list	*history;
 
-	history = g_tracking.mysh->hist;
+	if (!g_tracking.mysh || !g_tracking.mysh->hist)
+		return (NULL);
+	history = ft_lstgetfirst(g_tracking.mysh->hist->firstelement);
 	if (!history)
 		return (0);
-	while (history->previous)
-		history = history->previous;
 	if (!history)
 		return (0);
 	while (history)
@@ -44,21 +46,26 @@ t_hist	*get_hist_nbr(int i)
 	return (history);
 }
 
-int		replace_str(int i, char *comp)
+int		replace_str(size_t i)
 {
-	t_hist	*history;
+	t_list	*history;
 
-	history = g_tracking.mysh->hist;
+	history = ft_lstgetfirst(g_tracking.mysh->hist->firstelement);
 	if (!history)
 		return (0);
 	while (history)
 	{
 		if (history->index == i)
 		{
-			if (ft_strlen(history->line) > 0)
+			if (ft_strlen(history->content) > 0)
 			{
-				rem_str(comp);
-				add_to_str(ft_strdup(history->line));
+				clear_screen3();
+				print_prompt();
+				ft_strdel(&g_tracking.cpaste->line);
+				ft_strdel(&g_tracking.str);
+				g_tracking.str = NULL;
+				cursor_reset();
+				add_to_str(ft_strdup(history->content));
 			}
 			return (0);
 		}
@@ -69,50 +76,44 @@ int		replace_str(int i, char *comp)
 
 int		history_up(void)
 {
-	char	*comp;
-	t_hist	*history;
-	int		i;
+	t_list	*history;
 
-	if (g_tracking.quotes != 0)
+	if (g_tracking.quotes != 0 || !g_tracking.mysh->hist)
 		return (0);
-	g_tracking.pos->abs = utf_strlen(g_tracking.str);
-	back_to_pos();
-	if (g_tracking.histindex > 1)
+	if (!g_tracking.mysh->hist->lastelement)
+		return (0);
+	if (g_tracking.histindex > (int)g_tracking.mysh->hist->lastelement->index)
+		g_tracking.histindex = g_tracking.mysh->hist->lastelement->index + 1;
+	if (g_tracking.histindex > 0)
 		g_tracking.histindex--;
 	history = get_hist_nbr(g_tracking.histindex);
 	if (!history)
 		return (0);
-	comp = ft_strdup(g_tracking.str);
-	i = ft_strlen(comp);
-	replace_str(history->index, comp);
-	free(comp);
+	replace_str(history->index);
 	return (0);
 }
 
 int		history_down(void)
 {
-	char	*comp;
-	t_hist	*history;
-	int		i;
+	t_list	*history;
 
 	if (g_tracking.quotes != 0)
 		return (0);
-	if (g_tracking.histindex == 1)
-		g_tracking.histindex++;
-	if (g_tracking.histindex <= g_tracking.histmax)
-		g_tracking.histindex++;
-	if (g_tracking.histindex == g_tracking.histmax + 1)
+	if (g_tracking.histindex >= get_last() || g_tracking.swi != 1)
 	{
-		comp = ft_strdup(g_tracking.str);
-		rem_str(comp);
-		free(comp);
+		clear_screen3();
+		print_prompt();
+		ft_strdel(&g_tracking.str);
+		g_tracking.swi = 1;
+		cursor_reset();
+		add_to_str(ft_strdup(g_tracking.tmp_hist));
 	}
+	if (g_tracking.histindex > get_last())
+		write(2, "\a", 1);
+	g_tracking.histindex++;
 	history = get_hist_nbr(g_tracking.histindex);
 	if (!history)
 		return (0);
-	comp = ft_strdup(g_tracking.str);
-	i = ft_strlen(comp);
-	replace_str(history->index, comp);
-	free(comp);
+	replace_str(history->index);
 	return (0);
 }

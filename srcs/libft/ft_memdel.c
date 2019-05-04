@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:28:58 by bsiche            #+#    #+#             */
-/*   Updated: 2017/12/01 18:32:46 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/02 06:55:26 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ void	ft_memdel(void **ap)
 {
 	if (ap == NULL)
 		return ;
-	free(*ap);
+	ft_free(*ap);
 	*ap = NULL;
 }

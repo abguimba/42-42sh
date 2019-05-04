@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmdparse_misc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/19 22:28:10 by bsiche            #+#    #+#             */
-/*   Updated: 2018/12/18 20:21:06 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_ls	*str_alloc(void)
 {
 	t_ls	*info;
 
-	info = malloc(sizeof(t_ls) + 1);
+	info = ft_malloc(sizeof(t_ls) + 1);
 	info->name = NULL;
 	info->path = NULL;
 	info->symlink = NULL;
@@ -40,7 +40,7 @@ void	ft_usage(char invalid)
 	ft_putchar(invalid);
 	ft_putchar('\n');
 	ft_putendl("usage: ft_ls [-1adlrtuSRG@] [file ...]");
-	exit(0);
+	ft_exit2(EXIT_SUCCESS);
 }
 
 int		checkoption(char *option, char c)
@@ -77,7 +77,7 @@ char	*clean1(char *option, int i, int j)
 				i++;
 		}
 		newstr[j] = '\0';
-		free(option);
+		ft_free(option);
 		return (newstr);
 	}
 	return (option);

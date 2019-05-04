@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:41:15 by bsiche            #+#    #+#             */
-/*   Updated: 2019/01/20 07:13:30 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void			ft_handlelink(t_list *list, char *dossier, int *flag)
 			info->issimple = 1;
 			*flag = 1;
 		}
-		free(perm);
+		ft_free(perm);
 	}
 }
 
@@ -49,7 +49,7 @@ char *dossier, char *option)
 	return (new_mainliste);
 }
 
-t_lstcontainer	*ft_ls(char *name, char *option, int called)
+t_lstcontainer	*ft_ls(char *name, char *option)
 {
 	t_lstcontainer		*mainliste;
 	DIR					*dir;
@@ -72,6 +72,6 @@ t_lstcontainer	*ft_ls(char *name, char *option, int called)
 		return (free_all(mainliste, dossier));
 	if (needstat(option) == 1)
 		get_and_sort(mainliste, option);
-	free(dossier);
+	ft_free(dossier);
 	return (mainliste);
 }

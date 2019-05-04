@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_whitespaces.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/13 03:22:10 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/12/04 17:15:13 by alsomvil         ###   ########.fr       */
+/*   Created: 2017/09/13 03:22:10 by mjose             #+#    #+#             */
+/*   Updated: 2019/04/26 00:26:51 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
 static int		ft_nbletter(char *str, int i)
 {
@@ -59,7 +59,7 @@ char			**ft_split_whitespaces(char *str)
 
 	i = 0;
 	j = 0;
-	tab = malloc(sizeof(char*) * (ft_nbword(str) + 1));
+	tab = ft_malloc(sizeof(char*) * (ft_nbword(str) + 1));
 	while (str[i] != '\0')
 	{
 		while ((str[i] == '\t' || str[i] == ' ' || str[i] == '\n')
@@ -68,7 +68,7 @@ char			**ft_split_whitespaces(char *str)
 		if (str[i] != '\0')
 		{
 			k = 0;
-			tab[j] = malloc(sizeof(char) * (ft_nbletter(str, i) + 1));
+			tab[j] = ft_malloc(sizeof(char) * (ft_nbletter(str, i) + 1));
 			while ((str[i] != '\t' && str[i] != ' ' && str[i] != '\n')
 					&& str[i] != '\0')
 				tab[j][k++] = str[i++];

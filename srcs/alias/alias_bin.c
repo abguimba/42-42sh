@@ -6,31 +6,90 @@
 /*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:37:20 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 06:11:03 by abguimba         ###   ########.fr       */
+/*   Updated: 2019/04/30 22:32:27 by abguimba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh42.h"
 
-void		print_alias_lst(void)
+char		*aliased_line(char **taab, int i, int loop, char *hold)
+{
+	char	*memory;
+
+	while (loop == 0)
+	{
+		loop = 0;
+		i = 0;
+		while (taab[i])
+		{
+			hold = ft_strdup(taab[i]);
+			taab[i] = recursive_alias(taab[i]);
+			if (g_tracking.aliasloop->alias_len != 0)
+				taab[i] = check_if_next_alias(taab[i]);
+			if (ft_strcmp(taab[i], hold))
+			{
+				memory = taab_to_line(taab, hold);
+				hold = NULL;
+				taab = line_to_taab(memory, 0, 0);
+				continue ;
+			}
+			i++;
+			ft_strdel(&hold);
+		}
+		loop++;
+	}
+	return (taab_to_line(taab, hold));
+}
+
+void		alias_swapper_helper(int i, int j, char *line, char **taab)
+{
+	int		hold;
+	int		l;
+
+	while (i < (int)ft_strlen(line))
+	{
+		hold = i;
+		i = next_separator(line, i);
+		if (!(taab[j] = ft_malloc(sizeof(char) * i + 1)))
+			return ;
+		l = 0;
+		while (hold < i)
+		{
+			taab[j][l] = line[hold];
+			l++;
+			hold++;
+		}
+		taab[j][l] = '\0';
+		j++;
+	}
+	taab[j] = NULL;
+}
+
+char		*alias_swapper(char *line, int i, int count)
+{
+	char	**taab;
+
+	taab = line_to_taab(line, i, count);
+	line = aliased_line(taab, 0, 0, NULL);
+	return (line);
+}
+
+int			print_alias_lst(void)
 {
 	t_keyval		*tmp;
 	t_list			*buf;
 
-	buf = ft_lstgetfirst(g_tracking.mysh->alias_lst->firstelement);
+	buf = NULL;
+	if (g_tracking.mysh->alias_lst)
+		buf = ft_lstgetfirst(g_tracking.mysh->alias_lst->firstelement);
 	while (buf)
 	{
 		tmp = buf->content;
 		if (tmp)
-		{
-			if (tmp->key)
-				ft_putstr(tmp->key);
-			ft_putchar('=');
-			if (tmp->value)
-				ft_putendl(tmp->value);
-		}
+			print_keyval(tmp);
 		buf = buf->next;
 	}
+	return (0);
 }
 
 char		*return_alias(char *name)
@@ -52,25 +111,4 @@ char		*return_alias(char *name)
 		buf = buf->next;
 	}
 	return (NULL);
-}
-
-void		apply_alias(t_last *list)
-{
-	t_last	*head;
-	char	*alias;
-
-	head = list;
-	while (head)
-	{
-		if (head->type == 1)
-		{
-			alias = return_alias(head->name);
-			if (alias)
-			{
-				free(head->name);
-				head->name = ft_strdup(alias);
-			}
-		}
-		head = head->next;
-	}
 }

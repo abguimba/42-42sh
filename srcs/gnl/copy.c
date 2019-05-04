@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   copy.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 19:41:54 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 03:11:37 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/04 03:03:34 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/sh42.h"
+#include "sh42.h"
 
 int		ft_mini_exec_key(char *str)
 {
@@ -46,10 +46,9 @@ int		mini_is_cmd(char *str)
 	{
 		if (ft_strncmp(str, tmp->content, i) == 0)
 			flag++;
-		if (strlen(tmp->content) == i && ft_strncmp(str, tmp->content, i) == 0)
-		{
+		if (ft_strlen(tmp->content) == i
+				&& ft_strncmp(str, tmp->content, i) == 0)
 			return (ft_mini_exec_key(str));
-		}
 		tmp = tmp->next;
 	}
 	if (flag == 0)
@@ -76,12 +75,12 @@ int		mini_read(int i)
 				break ;
 			if (i > 6)
 			{
-				free(str);
+				ft_free(str);
 				return (i);
 			}
 		}
 	}
-	free(str);
+	ft_free(str);
 	return (0);
 }
 
@@ -101,6 +100,8 @@ void	ft_actual_cpy(void)
 	start = utf_goto(g_tracking.str, start);
 	end = utf_goto(g_tracking.str, end);
 	len = end - start;
+	if (g_tracking.cpaste->line)
+		ft_strdel(&g_tracking.cpaste->line);
 	g_tracking.cpaste->line = ft_strsub(g_tracking.str, start, len, 0);
 }
 
@@ -109,6 +110,10 @@ void	begin_cpy(void)
 	int		i;
 
 	i = 0;
+	if (!g_tracking.cpaste || !g_tracking.str)
+		return ;
+	if (ft_strlen(g_tracking.str) == 0)
+		return ;
 	g_tracking.cpaste->b1 = g_tracking.pos->abs;
 	while (i == 0)
 	{

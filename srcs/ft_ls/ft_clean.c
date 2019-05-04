@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clean.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 00:36:57 by bsiche            #+#    #+#             */
-/*   Updated: 2018/12/18 20:41:14 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_cleantime(t_list *liste)
 	{
 		buf = list->content;
 		dup = ft_strdup(buf->strtime);
-		free(buf->strtime);
+		ft_free(buf->strtime);
 		if (buf->timeswitch == 1)
 		{
 			tmp = ft_subtime(dup, tmp);

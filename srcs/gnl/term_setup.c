@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   term_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/12 05:23:25 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 03:16:14 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh42.h"
+
+int		yan_putchar(int c)
+{
+	return (write(STDIN_FILENO, &c, 1));
+}
 
 void	check_term(char *name)
 {
@@ -43,16 +48,6 @@ int		clear_screen3(void)
 	return (0);
 }
 
-int		clear_screen2(void)
-{
-	char	*res;
-
-	if ((res = tgetstr("cl", NULL)) == NULL)
-		return (-1);
-	tputs(res, 1, yan_putchar);
-	return (0);
-}
-
 void	get_term(void)
 {
 	char			*name_term;
@@ -71,7 +66,7 @@ void	get_term(void)
 	term.c_lflag &= ~(ICANON | ECHO | ISIG);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	g_tracking.terminfo = malloc(sizeof(t_term_data*));
+	g_tracking.terminfo = ft_malloc(sizeof(t_term_data*));
 	g_tracking.myterm = term;
 	g_tracking.default_term = default_term;
 	get_size();

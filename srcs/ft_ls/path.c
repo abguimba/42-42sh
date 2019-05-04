@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/19 00:18:46 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 06:11:03 by abguimba         ###   ########.fr       */
+/*   Updated: 2019/05/04 07:29:44 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ int		ft_edgecase(char *dossier)
 
 	i = ft_strlen(dossier) - 1;
 	err = NULL;
+	if (i < 0 || !dossier)
+		return (1);
 	if (dossier[i] == '/')
 	{
 		dir = opendir(dossier);
-		if (errno == ENOTDIR)
+		if (!is_dir(dossier))
 		{
 			if (g_tracking.aut)
 				g_tracking.aut->err = 1;

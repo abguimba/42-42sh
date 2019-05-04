@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 05:31:34 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/17 03:51:59 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/05/03 03:20:26 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,8 @@ long		get_nbr(char *str)
 	return (ft_atoi(str));
 }
 
-int			math_test(char **argv)
+int			math_test(char **argv, long i, long j)
 {
-	long	i;
-	long	j;
-
-	i = get_nbr(argv[0]);
-	j = get_nbr(argv[2]);
 	if (i > 2147483647 || j > 2147483647)
 		return (1);
 	if (ft_strcmp(argv[1], "-eq") == 0)
@@ -64,11 +59,17 @@ int			math_test(char **argv)
 	if (ft_strcmp(argv[1], "-ge") == 0)
 		if (i >= j)
 			return (0);
+	if (ft_strcmp(argv[1], "-gt") == 0)
+		if (i > j)
+			return (0);
 	if (ft_strcmp(argv[1], "-it") == 0)
 		if (i < j)
 			return (0);
 	if (ft_strcmp(argv[1], "-le") == 0)
 		if (i <= j)
+			return (0);
+	if (ft_strcmp(argv[1], "-lt") == 0)
+		if (i < j)
 			return (0);
 	return (1);
 }
@@ -82,8 +83,9 @@ int			three_arg(char **argv)
 		return (string_test(argv));
 	if (ft_strcmp(argv[1], "-eq") == 0 || ft_strcmp(argv[1], "-ne") == 0
 	|| ft_strcmp(argv[1], "-ge") == 0 || ft_strcmp(argv[1], "-it") == 0
-	|| ft_strcmp(argv[1], "-le") == 0)
-		return (math_test(argv));
+	|| ft_strcmp(argv[1], "-le") == 0 || ft_strcmp(argv[1], "-gt") == 0
+	|| ft_strcmp(argv[1], "-lt") == 0)
+		return (math_test(argv, get_nbr(argv[0]), get_nbr(argv[2])));
 	ft_putendl_fd("too many arguments", 2);
 	return (i);
 }

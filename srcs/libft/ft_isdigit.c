@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:05:11 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/17 01:29:43 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/23 13:52:21 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int		ft_isinteg(char *str)
 
 	i = 0;
 	if (!str)
-	{
-		ft_putendl("perdu");
 		return (1);
-	}
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]) != 1 && (str[i] != '+' && str[i] != '-'))

@@ -6,7 +6,7 @@
 /*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 00:49:03 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/17 01:32:45 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/02 06:55:43 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_list	*get_by_fd(t_lstcontainer *liste, int fd)
 			return (tmp);
 		tmp = tmp->next;
 	}
-	if ((file = malloc(sizeof(*file))) == NULL)
+	if ((file = ft_malloc(sizeof(*file))) == NULL)
 		return (NULL);
 	if ((file->buff = ft_strnew(0)) == NULL)
 		return (NULL);
@@ -54,11 +54,11 @@ int		gnl2(char **line, int loop, t_fd *fd)
 	if (loop == 0 && ft_strlen(fd->buff) != 0)
 	{
 		*line = ft_strdup(fd->buff);
-		free(fd->buff);
+		ft_free(fd->buff);
 		fd->buff = ft_strnew(0);
 		return (1);
 	}
-	free(fd->buff);
+	ft_free(fd->buff);
 	return (loop);
 }
 
@@ -105,7 +105,7 @@ int		get_next_line(int const fd, char **line)
 		lstcontainer_remove(liste, cur_fd, 1);
 		if (lstcontainer_size(liste) == 0)
 		{
-			free(liste);
+			ft_free(liste);
 			liste = NULL;
 		}
 	}

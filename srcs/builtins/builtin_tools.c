@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 12:52:33 by alsomvil          #+#    #+#             */
-/*   Updated: 2019/03/20 06:11:03 by abguimba         ###   ########.fr       */
+/*   Created: 2018/08/15 12:52:33 by mjose             #+#    #+#             */
+/*   Updated: 2019/05/02 05:55:02 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "sh42.h"
+
+int			builtin_exec_cont_2(void)
+{
+	if (ft_builtin_search("true"))
+		return (0);
+	else if (ft_builtin_search("false"))
+		return (1);
+	else if (ft_builtin_search("kirby"))
+		return (special_main());
+	return (0);
+}
 
 int			cd_args_len(void)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 20:03:52 by bsiche            #+#    #+#             */
-/*   Updated: 2018/05/23 20:03:54 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/15 03:49:08 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char			**ft_strsplit(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	i = 0;
-	table = malloc(2 * (sizeof(char **) * (countwords(s, c) + 1)));
+	table = ft_malloc(2 * (sizeof(char **) * (countwords(s, c) + 1)));
 	if (table == NULL)
 		return (NULL);
 	y = 0;

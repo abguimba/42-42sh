@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   auto_complete_parse.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abguimba <abguimba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 20:45:18 by bsiche            #+#    #+#             */
-/*   Updated: 2019/03/20 06:11:03 by abguimba         ###   ########.fr       */
+/*   Updated: 2019/05/01 02:19:56 by bsiche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	escape_path(void)
 				string = ft_strjoinfree(string, "\\ ", 1);
 			buf = buf->next;
 		}
-		free(g_tracking.aut->to_add);
+		ft_free(g_tracking.aut->to_add);
 		g_tracking.aut->to_add = string;
 	}
 	ft_freesplitlist(tmp);
@@ -51,14 +51,15 @@ void	rm_slash(void)
 	{
 		i--;
 		if (g_tracking.aut->word[i] == '/')
-			g_tracking.aut->word = NULL;
+			ft_strdel(&g_tracking.aut->word);
 	}
 	if (g_tracking.aut->word)
 	{
-		tmp = ft_strsplitlst(g_tracking.str, '/');
+		tmp = ft_strsplitlst(g_tracking.aut->word, '/');
 		if (tmp != NULL)
 		{
 			buf = ft_lstgetlast(tmp->firstelement);
+			ft_strdel(&g_tracking.aut->word);
 			g_tracking.aut->word = ft_strdup(buf->content);
 			ft_freesplitlist(tmp);
 		}
@@ -71,15 +72,12 @@ int		sanitize_path(void)
 	int		a;
 	char	*path;
 
+	if (g_tracking.aut->word[0] == '~' || g_tracking.aut->word[0] == '$')
+		g_tracking.aut->word = ft_exp_complete(g_tracking.aut->word);
+	if (!g_tracking.aut->word)
+		return (0);
 	i = ft_strlen(g_tracking.aut->word);
 	a = 0;
-	if (g_tracking.aut->word[0] == '~' || g_tracking.aut->word[0] == '$')
-	{
-		g_tracking.aut->path = ft_exp_complete(g_tracking.aut->word);
-		if (g_tracking.aut->path == NULL)
-			g_tracking.aut->path = ft_strdup(g_tracking.aut->word);
-		return (0);
-	}
 	while (g_tracking.aut->word[i] != '/' && i > 0)
 		i--;
 	path = ft_strnew(i);
@@ -89,6 +87,8 @@ int		sanitize_path(void)
 		a++;
 	}
 	path = ft_strjoinfree(path, "/", 1);
+	if (g_tracking.aut->path)
+		ft_strdel(&g_tracking.aut->path);
 	g_tracking.aut->path = path;
 	return (0);
 }

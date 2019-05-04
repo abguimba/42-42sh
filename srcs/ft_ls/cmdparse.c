@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmdparse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsiche <bsiche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 14:11:11 by bsiche            #+#    #+#             */
-/*   Updated: 2019/01/07 22:46:37 by bsiche           ###   ########.fr       */
+/*   Updated: 2019/04/18 02:10:31 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_cleanoption(char *bits, int i, int j, int k)
 	}
 	tmp[k] = '\0';
 	tmp = clean1(tmp, 0, 0);
-	free(bits);
+	ft_free(bits);
 	return (tmp);
 }
 
@@ -74,7 +74,7 @@ int		ft_endoption(char **argv, char **str, int i, int *flag)
 	if (argv[i + 1] == NULL)
 	{
 		*flag = 1;
-		ft_ls(".", *str, 0);
+		ft_ls(".", *str);
 		return (i);
 	}
 	i++;
@@ -99,7 +99,7 @@ int		ft_option(char **argv, char **str, int *flag)
 			i++;
 		else
 		{
-			ft_ls(".", *str, 0);
+			ft_ls(".", *str);
 			*flag = 1;
 			return (i);
 		}

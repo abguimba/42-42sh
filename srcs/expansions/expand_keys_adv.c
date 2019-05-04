@@ -6,7 +6,7 @@
 /*   By: mjose <mjose@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/13 06:46:36 by mjose             #+#    #+#             */
-/*   Updated: 2019/03/21 06:35:42 by mjose            ###   ########.fr       */
+/*   Updated: 2019/05/02 10:18:17 by mjose            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,18 @@ void	exp_key_altern(char **str, t_expand *expand)
 	t_analyzer	to_analy;
 
 	init_analyzer(&to_analy, str, expand);
-	ft_strdel(str);
-	if (!to_analy.wildcard)
+	if (!to_analy.wlcd_len && (!to_analy.varvalue
+			|| ft_strequ(to_analy.varname, "")))
 	{
-		print_exp_str_error(*str);
-		ft_strdel(str);
-		*str = ft_strdup(" ");
+		if (!to_analy.varvalue && to_analy.wildcard)
+			print_exp_error(ft_strdup(*str + 1), str);
+		else if (!g_tracking.mysh->in_here)
+			print_exp_str_error(*str, str);
+		end_analyzer(to_analy);
+		return ;
 	}
-	else if (to_analy.varvalue)
-		*str = ft_strdup(to_analy.varvalue);
-	else
-		*str = ft_strdup(" ");
+	reassign_str_altern(str, &to_analy);
+	end_analyzer(to_analy);
 }
 
 void	exp_key_double_hash(char **str, t_expand *expand)
@@ -57,12 +58,12 @@ void	exp_key_double_hash(char **str, t_expand *expand)
 	}
 	else
 		rmv_str(str);
+	end_analyzer(to_analy);
 }
 
 void	exp_key_double_percent(char **str, t_expand *expand)
 {
 	t_analyzer	to_analy;
-	char		*run_varvalue;
 	char		*run_wildcard;
 	int			i;
 
@@ -70,11 +71,12 @@ void	exp_key_double_percent(char **str, t_expand *expand)
 	init_analyzer(&to_analy, str, expand);
 	if (!to_analy.varname[0])
 	{
-		print_exp_error(*str + 1);
+		print_exp_error(ft_strdup(*str + 1), str);
+		end_analyzer(to_analy);
 		return ;
 	}
 	if (to_analy.start_astrsk)
-		run_wildcard = run_wildcard + 2;
+		run_wildcard = to_analy.wildcard + 2;
 	if (to_analy.varvalue && !to_analy.asterisk)
 		ass_str_wout_ast(&to_analy, str);
 	else if (to_analy.varvalue && to_analy.start_astrsk && !to_analy.end_astrsk)
@@ -83,4 +85,5 @@ void	exp_key_double_percent(char **str, t_expand *expand)
 		ass_str_wend_ast(&to_analy, str);
 	else
 		rmv_str(str);
+	end_analyzer(to_analy);
 }
